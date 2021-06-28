@@ -64,12 +64,11 @@ jobs:
         # macOS:   https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/
         # Windows: https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
         qt-version: ['5.15.2']
-        include:
-          - os: ubuntu-18.04
-            qt-version: 5.15.2
-            app-image: true
-          - os: ubuntu-18.04
-            qt-version: 5.15.2
+        app-image: [true, false]
+        exclude:
+          - os: windows-latest
+            app-image: false
+          - os: macos-latest
             app-image: false
 #        exclude:
 #          - os: ubuntu-18.04
