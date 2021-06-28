@@ -1,7 +1,5 @@
 name: Build and Deploy Webpage
 on:
-  push:
-    branches: [ develop ]
   workflow_dispatch:
 
 defaults:
