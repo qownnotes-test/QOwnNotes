@@ -64,6 +64,9 @@ jobs:
         # macOS:   https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/
         # Windows: https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
         qt-version: ['5.15.2']
+        include:
+          - os: ubuntu-18.04
+            app-image: true
 #        exclude:
 #          - os: ubuntu-18.04
 #            qt-version: '5.13.2'
@@ -130,11 +133,11 @@ jobs:
 #        qmake
 #        lrelease QOwnNotes.pro
 #        make
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && !matrix.app-image
       name: Build for Snapcraft
       run: cd .. && sg lxd -c 'snapcraft --use-lxd' && ls
 
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && matrix.app-image
       name: Build for Linux
       run: |
         sudo apt install desktop-file-utils libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-composite0 libxcb-cursor0 libxcb-damage0 libxcb-dpms0 libxcb-dri2-0 libxcb-dri3-0 libxcb-ewmh2 libxcb-glx0 libxcb-present0 libxcb-randr0 libxcb-record0 libxcb-render0 libxcb-res0 libxcb-screensaver0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-util1
@@ -190,7 +193,7 @@ jobs:
 #        asset_path: ./travis/QOwnNotes.deb
 #        asset_name: QOwnNotes.deb
 #        asset_content_type: application/vnd.debian.binary-package
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && !matrix.app-image
       name: Release Snap for Linux
       uses: actions/upload-release-asset@v1
       env:
@@ -201,16 +204,16 @@ jobs:
         asset_name: QOwnNotes-amd64.snap
         asset_content_type: application/octet-stream
 
-    - if: contains( matrix.os, 'ubuntu-18')
-      name: Deploy Snap
-      shell: bash
-      run: |
-        cd .. && ls
-        if [ -n "$(ls *.snap 2>/dev/null)" ]; then
-          sudo snapcraft upload *.snap --release stable
-        fi
+#    - if: contains( matrix.os, 'ubuntu-18') && !matrix.app-image
+#      name: Deploy Snap
+#      shell: bash
+#      run: |
+#        cd .. && ls
+#        if [ -n "$(ls *.snap 2>/dev/null)" ]; then
+#          sudo snapcraft upload *.snap --release stable
+#        fi
 
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && matrix.app-image
       name: Release AppImage for Linux
       uses: actions/upload-release-asset@v1
       env:
@@ -220,7 +223,7 @@ jobs:
         asset_path: ./src/QOwnNotes-x86_64.AppImage
         asset_name: QOwnNotes-x86_64.AppImage
         asset_content_type: application/vnd.appimage
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && matrix.app-image
       name: Release AppImage sha256sum for Linux
       uses: actions/upload-release-asset@v1
       env:
