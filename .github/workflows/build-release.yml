@@ -67,6 +67,8 @@ jobs:
         include:
           - os: ubuntu-18.04
             app-image: true
+          - os: ubuntu-18.04
+            app-image: false
 #        exclude:
 #          - os: ubuntu-18.04
 #            qt-version: '5.13.2'
