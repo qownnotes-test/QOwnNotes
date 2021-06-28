@@ -67,9 +67,9 @@ jobs:
         app-image: [true, false]
         exclude:
           - os: windows-latest
-            app-image: false
+            app-image: true
           - os: macos-latest
-            app-image: false
+            app-image: true
 #        exclude:
 #          - os: ubuntu-18.04
 #            qt-version: '5.13.2'
@@ -93,7 +93,7 @@ jobs:
     # Install Snapcraft & Qt
     #
 
-    - if: contains( matrix.os, 'ubuntu-18')
+    - if: contains( matrix.os, 'ubuntu-18') && !matrix.app-image
       name: Install Snapcraft
       uses: samuelmeuli/action-snapcraft@v1
       with:
